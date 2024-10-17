@@ -3,13 +3,20 @@
 #' Given a square matrix, calculates the average over the sum of row averages and column averages
 #' 
 #' @param m a square matrix with no missing values
+#' @import Matrix
 #' @return Single numerical value
 #' @examples
 #' m <- matrix(seq(16),nrow=4)
 #' un(m)
 #' @export
 un <- function(m) {
-  mean(apply(m,1,mean) + apply(m,2,mean))
+  # mean(apply(m,1,mean) + apply(m,2,mean))
+  # mean(m)*2
+  if (inherits(m, "sparseMatrix")) {
+    mean(m@x) * 2  # Operate only on the non-zero elements
+  } else {
+    mean(m) * 2
+  }
 }
 
 #' @title Second
